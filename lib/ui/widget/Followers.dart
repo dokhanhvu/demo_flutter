@@ -14,7 +14,7 @@ class Followers extends StatefulWidget{
   final String _userName;
   final AuthManager _authManager;
 
-  Followers(this._userName, this._authManager, {this.pageSize: 50, this.pageThreshold: 10});
+  Followers(this._userName, this._authManager, {this.pageSize: 30, this.pageThreshold: 10});
 
   @override
   createState() => new FollowersState();

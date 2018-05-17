@@ -13,19 +13,37 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/misc/auth_manager.dart';
 import 'package:flutter_app/misc/colors.dart';
 
 class LoginScreen extends StatefulWidget {
+  final AuthManager _authManager;
+  static const routeName = '/login';
 
-  static const routeName = "/login";
+  LoginScreen(this._authManager);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoginPageState createState() => _LoginPageState(_authManager);
 }
 
 class _LoginPageState extends State<LoginScreen> {
+  final AuthManager _authManager;
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  _LoginPageState(this._authManager);
+
+  void _handleSubmit() {
+    _authManager
+        .login(_usernameController.text, _passwordController.text)
+        .then((success) {
+      if (success) {
+        Navigator.pushReplacementNamed(context, '/home');
+      } else {
+        // TODO show an error
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,54 +56,73 @@ class _LoginPageState extends State<LoginScreen> {
             Column(
               children: <Widget>[
                 new Image.asset(
-                  'assets/ic_github_icon.png', width: 100.0, height: 100.0,),
+                  'assets/ic_github_icon.png',
+                  width: 100.0,
+                  height: 100.0,
+                ),
                 SizedBox(height: 16.0),
-                Text('Sign in to Github'),
+                Text(
+                  'Sign in to Github',
+                  style: new TextStyle(fontSize: 23.0),
+                ),
               ],
             ),
-            //SizedBox(height: 120.0),
+            SizedBox(height: 12.0),
+//            new Container(
+//              child: new Form(
+//                  child: new Column(
+//                children: <Widget>[
+//                  new TextFormField(
+//                    key: new Key('username'),
+//                    controller: _usernameController,
+//                    decoration: new InputDecoration(
+//                        hintText: "Username or email"),
+//                    autofocus: true,
+//                  ),
+//                  SizedBox(height: 12.0),
+//                  new TextFormField(
+//                    controller: _passwordController,
+//                    decoration:
+//                        new InputDecoration(hintText: "Password"),
+//                    obscureText: true,
+//                  ),
+//                  SizedBox(height: 12.0),
+//                  new RaisedButton(
+//                    shape: new RoundedRectangleBorder(
+//                      borderRadius: BorderRadius.all(Radius.circular(7.0)),
+//                    ),
+//                    child: Text('NEXT'),
+//                    onPressed: _handleSubmit,
+//                    splashColor: Colors.lightGreenAccent,
+//                    elevation: 8.0,
+//                  ),
+//                ],
+//              )),
+//            ),
             TextField(
               controller: _usernameController,
               decoration: InputDecoration(
-                //filled: true,
-                labelText: 'Username',
+                labelText: 'Username or email',
               ),
-              obscureText: true,
             ),
             SizedBox(height: 12.0),
             TextField(
               controller: _passwordController,
               decoration: InputDecoration(
-                //filled: true,
                 labelText: 'Password',
               ),
               obscureText: true,
             ),
             SizedBox(height: 12.0),
             RaisedButton(
-              shape: new BeveledRectangleBorder(),
+              shape: new RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(7.0)),
+              ),
               child: Text('NEXT'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: _handleSubmit,
+              splashColor: Colors.lightGreenAccent,
+              elevation: 8.0,
             ),
-//            ButtonBar(
-//              children: <Widget>[
-//                FlatButton(
-//                  child: Text('CANCEL'),
-//                  onPressed: () {
-//                    _usernameController.clear();
-//                    _passwordController.clear();
-//                  },
-//                ),
-//                RaisedButton(
-//                  child: Text('NEXT'),
-//                  onPressed: () {
-//                    Navigator.pop(context);
-//                  },
-//                ),
-//              ],
-//            ),
           ],
         ),
       ),

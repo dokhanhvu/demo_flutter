@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/misc/function.dart';
 import 'package:meta/meta.dart';
 
-class LoadingListView<T> extends StatefulWidget{
-
+class LoadingListView<T> extends StatefulWidget {
   final PageRequest<T> pageRequest;
 
   final WidgetAdapter<T> widgetAdapter;
@@ -18,39 +17,31 @@ class LoadingListView<T> extends StatefulWidget{
 
   final Indexer<T> indexer;
 
-  LoadingListView(this.pageRequest, {
-    this.pageSize: 20,
-    this.pageThreshold:5,
-    @required this.widgetAdapter,
-    this.reverse: false,
-    this.indexer
-  });
+  LoadingListView(this.pageRequest,
+      {this.pageSize: 20,
+      this.pageThreshold: 5,
+      @required this.widgetAdapter,
+      this.reverse: false,
+      this.indexer});
 
-  @override createState() => new LoadingListViewState<T>();
-
+  @override
+  createState() => new LoadingListViewState<T>();
 }
 
 class LoadingListViewState<T> extends State<LoadingListView<T>> {
-
   List<T> objects = [];
   Map<int, int> index = {};
   Future request;
-  bool isLoadMore = true;
 
   @override
   Widget build(BuildContext context) {
-    ListView listView = ListView.builder(
+    return new ListView.builder(
         itemBuilder: itemBuilder,
         itemCount: objects.length,
-        reverse: widget.reverse
-    );
+        reverse: widget.reverse);
 
-      return new RefreshIndicator(
-        onRefresh: onRefresh,
-        child: listView
-    );
+    //return new RefreshIndicator(onRefresh: onRefresh, child: listView);
   }
-
 
   @override
   void initState() {
@@ -58,36 +49,36 @@ class LoadingListViewState<T> extends State<LoadingListView<T>> {
     this.lockedLoadNext();
   }
 
-  Future<Null> onRefresh() async {
+  Future<Null> onRefresh() async{
     this.request?.timeout(const Duration());
     List<T> fetched = await widget.pageRequest(0, widget.pageSize);
-    setState(() {
-      this.objects.clear();
-      this.index.clear();
-      this.addObjects(fetched);
-    });
+
+      setState(() {
+        this.objects.clear();
+        this.index.clear();
+        this.addObjects(fetched);
+      });
 
     return null;
   }
 
   Widget itemBuilder(BuildContext context, int index) {
-
-    if (index + widget.pageThreshold > objects.length && isLoadMore) {
+    if (index + widget.pageThreshold > objects.length) {
       lockedLoadNext();
     }
 
-    return widget.widgetAdapter != null ? widget.widgetAdapter(objects[index])
+    return widget.widgetAdapter != null
+        ? widget.widgetAdapter(objects[index])
         : new Container();
   }
 
-  Future loadNext() async {
+  Future loadNext() async{
     int page = (objects.length / widget.pageSize).ceil() + 1;
     List<T> fetched = await widget.pageRequest(page, widget.pageSize);
 
-    if(fetched == null || fetched.length == 0)
-      return;
+    if (fetched == null || fetched.length == 0) return;
 
-    if(mounted) {
+    if (mounted) {
       this.setState(() {
         this.addObjects(fetched);
       });
@@ -111,5 +102,4 @@ class LoadingListViewState<T> extends State<LoadingListView<T>> {
       }
     });
   }
-
 }

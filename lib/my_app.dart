@@ -6,12 +6,11 @@ import 'package:flutter_app/ui/widget/login.dart';
 import 'package:flutter_app/ui/widget/splash_screen.dart';
 
 class MyApp extends StatelessWidget {
-
   final AuthManager _authManager = new AuthManager();
   final Router router = new Router();
 
-  MyApp(){
-    //configureRouter(router, _authManager);
+  MyApp() {
+    configureRouter(router, _authManager);
   }
 
   @override
@@ -24,26 +23,29 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  Route<dynamic> _getRoute(RouteSettings settings) {
-    if (settings.name != LoginScreen.routeName) {
-      return null;
-    }
-
-    return MaterialPageRoute<void>(
-      settings: settings,
-      builder: (BuildContext context) => LoginScreen(),
-      fullscreenDialog: true,
-    );
-  }
+//  Route<dynamic> _getRoute(RouteSettings settings) {
+//    if (settings.name != LoginScreen.routeName) {
+//      return null;
+//    }
+//
+//    return MaterialPageRoute<void>(
+//      settings: settings,
+//      builder: (BuildContext context) => LoginScreen(),
+//      fullscreenDialog: true,
+//    );
+//  }
 }
 
 final ThemeData _appTheme = _buildAppTheme();
 
 ThemeData _buildAppTheme() {
   final ThemeData base = ThemeData.light();
+  var paint = new Paint();
   return base.copyWith(
-    accentColor: Color(0xFF00000),
-    primaryColor: Color(0xFFffffff),
+    //accentColor: Color(0xFF00000),
+    accentColor: Colors.lightBlueAccent,
+    //primaryColor: Color(0xFFffffff),
+    primaryColor: Colors.blue,
     buttonColor: Color(0xFF32CD32),
     scaffoldBackgroundColor: Colors.white,
     cardColor: Colors.white,
@@ -58,24 +60,21 @@ ThemeData _buildAppTheme() {
   );
 }
 
-//typedef Widget HandlerFunc(BuildContext context, Map<String, dynamic> params);
-//
-//HandlerFunc buildLoginHandler(AuthManager authManager){
-//      (BuildContext context, Map<String, dynamic> params) => new LoginScreen();
-//}
-//
-//HandlerFunc buildHomeHandler(AuthManager authManager){
-//      (BuildContext context, Map<String, dynamic> params) => new HomeScreen(params['username']);
-//}
-//
-//void configureRouter(Router router, AuthManager authManager) {
-//  router.define(
-//      '/login',
-//      handler: new Handler(handlerFunc: buildLoginHandler(authManager))
-//  );
-//
-//  router.define(
-//      '/home/:username',
-//      handler: new Handler(handlerFunc: buildHomeHandler(authManager))
-//  );
-//}
+typedef Widget HandlerFunc(BuildContext context, Map<String, dynamic> params);
+
+HandlerFunc buildLoginHandler(AuthManager authManager) {
+  return (BuildContext context, Map<String, dynamic> params) => new LoginScreen(authManager);
+}
+
+HandlerFunc buildHomeHandler(AuthManager authManager) {
+   return (BuildContext context, Map<String, dynamic> params) =>
+    new HomeScreen(authManager);
+}
+
+void configureRouter(Router router, AuthManager authManager) {
+  router.define('/login',
+      handler: new Handler(handlerFunc: buildLoginHandler(authManager)));
+
+  router.define('/home',
+      handler: new Handler(handlerFunc: buildHomeHandler(authManager)));
+}

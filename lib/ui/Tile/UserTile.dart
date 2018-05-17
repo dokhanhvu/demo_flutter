@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/user.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class UserTile extends StatelessWidget {
   //final Map map;
@@ -13,7 +14,7 @@ class UserTile extends StatelessWidget {
 
       return new ListTile(
         leading: new CircleAvatar(
-          backgroundImage: new NetworkImage(user.avatar),
+          backgroundImage: new CachedNetworkImageProvider(user.avatar),
           backgroundColor: Colors.grey,
         ),
         title: new Text(user.username),

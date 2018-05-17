@@ -48,41 +48,38 @@ class AuthManager {
     _loggedIn = false;
   }
 
-  Future _saveTokens(String ownername, String oauthToken) async {
+  Future _saveTokens(String ownerName, String oauthToken) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(KEY_OWNER_NAME, ownername);
+    prefs.setString(KEY_OWNER_NAME, ownerName);
     prefs.setString(KEY_OAUTH_TOKEN, oauthToken);
-    await prefs.commit();
-    _ownerName = ownername;
+    //await prefs.commit();
+    _ownerName = ownerName;
     _oauthClient = new OauthClient(_client, oauthToken);
   }
 
   Future<bool> login(String username, String password) async {
     var basicToken = _getEncodedAuthorization(username, password);
     final requestHeader = {'Authorization': 'Basic $basicToken'};
-    final requestBody = JSON.encode({
+    final requestBody = json.encode({
       'client_id': _clientId,
       'client_secret': _clientSecret,
       'scopes': ['user', 'repo', 'gist', 'notifications']
     });
 
-    var client = oauthClient;
-    bool loggedIn = false;
-
     final loginResponse = await _client
-        .post('${BASE_URL}/authorizations',
-        headers: requestHeader, body: requestBody)
-        .whenComplete(_client.close);
+        .post('$BASE_URL/authorizations',
+        headers: requestHeader, body: requestBody);
+        //.whenComplete(_client.close);
 
     if (loginResponse.statusCode == 201) {
-      final bodyJson = JSON.decode(loginResponse.body);
-      await _saveTokens(username, bodyJson['token']);
-      loggedIn = true;
+      final bodyJson = json.decode(loginResponse.body);
+      _saveTokens(username, bodyJson['token']);
+      _loggedIn = true;
     } else {
-      loggedIn = false;
+      _loggedIn = false;
     }
 
-    return loggedIn;
+    return _loggedIn;
   }
 
   String _getEncodedAuthorization(String username, String password) {

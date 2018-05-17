@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter_app/misc/auth_manager.dart';
-import 'package:flutter_app/model/user.dart';
 import 'package:flutter_app/misc/keys.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_app/model/user.dart';
 
 class Api {
   final AuthManager _authManager;
@@ -13,6 +11,7 @@ class Api {
 
   Future<List<User>> getFollowers(
       int pageNumber, int pageSize, String userName) async {
+    userName = 'dutn158';
     String url =
         "$BASE_URL/users/$userName/followers?page=$pageNumber&per_page=$pageSize";
 
@@ -20,7 +19,7 @@ class Api {
     var client = _authManager.oauthClient;
 
     try {
-      http.Response response = await client.get(url);
+     var response = await client.get(url).whenComplete(client.close);
 
       if (response.statusCode == 200) {
         List<User> future = User.usersFromJson(response.body);
@@ -34,6 +33,7 @@ class Api {
 
   Future<List<User>> getFollowing(
       int pageNumber, int pageSize, String userName) async {
+    userName = 'dutn158';
     String url =
         "$BASE_URL/users/$userName/following?page=$pageNumber&per_page=$pageSize";
 
@@ -42,7 +42,7 @@ class Api {
     var client = _authManager.oauthClient;
 
     try {
-      http.Response response = await client.get(url);
+      var response = await client.get(url).whenComplete(client.close);
 
       if (response.statusCode == 200) {
         List<User> future = User.usersFromJson(response.body);
