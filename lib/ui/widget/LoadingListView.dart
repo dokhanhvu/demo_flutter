@@ -18,8 +18,8 @@ class LoadingListView<T> extends StatefulWidget {
   final Indexer<T> indexer;
 
   LoadingListView(this.pageRequest,
-      {this.pageSize: 20,
-      this.pageThreshold: 5,
+      {this.pageSize: 50,
+      this.pageThreshold: 20,
       @required this.widgetAdapter,
       this.reverse: false,
       this.indexer});
@@ -35,12 +35,12 @@ class LoadingListViewState<T> extends State<LoadingListView<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return new ListView.builder(
+    ListView listView = new ListView.builder(
         itemBuilder: itemBuilder,
         itemCount: objects.length,
         reverse: widget.reverse);
 
-    //return new RefreshIndicator(onRefresh: onRefresh, child: listView);
+    return new RefreshIndicator(onRefresh: onRefresh, child: listView, displacement: 2.0,);
   }
 
   @override
@@ -56,7 +56,8 @@ class LoadingListViewState<T> extends State<LoadingListView<T>> {
       setState(() {
         this.objects.clear();
         this.index.clear();
-        this.addObjects(fetched);
+//        this.addObjects(fetched);
+        objects.addAll(fetched);
       });
 
     return null;
@@ -76,13 +77,14 @@ class LoadingListViewState<T> extends State<LoadingListView<T>> {
     int page = (objects.length / widget.pageSize).ceil() + 1;
     List<T> fetched = await widget.pageRequest(page, widget.pageSize);
 
-    if (fetched == null || fetched.length == 0) return;
+    if (fetched == null || fetched.length == 0 ) return;
 
-    if (mounted) {
-      this.setState(() {
-        this.addObjects(fetched);
-      });
-    }
+      if (mounted) {
+        this.setState(() {
+          //this.addObjects(fetched);
+          objects.addAll(fetched);
+        });
+      }
   }
 
   void lockedLoadNext() {
