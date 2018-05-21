@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/misc/image_builder.dart';
 import 'package:flutter_app/model/user.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -17,7 +18,7 @@ class MapTile extends StatelessWidget{
       children: <Widget>[
         ListTile(
           leading: new CircleAvatar(
-            backgroundImage: new NetworkImage(user.avatar),
+            backgroundImage: NetworkImage(user.avatar, scale: 6.0),
             backgroundColor: Colors.grey,
           ),
           title: new Text(user.username),

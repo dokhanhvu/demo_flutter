@@ -32,15 +32,24 @@ class LoadingListViewState<T> extends State<LoadingListView<T>> {
   List<T> objects = [];
   Map<int, int> index = {};
   Future request;
+  ScrollController _scrollController = new ScrollController();
+  bool isPerformingRequest = false;
+  bool isLoadMore = true;
 
   @override
   Widget build(BuildContext context) {
     ListView listView = new ListView.builder(
-        itemBuilder: itemBuilder,
-        itemCount: objects.length,
-        reverse: widget.reverse);
+      itemBuilder: itemBuilder,
+      itemCount: objects.length + (isLoadMore ? 1 : 0),
+      reverse: widget.reverse,
+      controller: _scrollController,
+    );
 
-    return new RefreshIndicator(onRefresh: onRefresh, child: listView, displacement: 2.0,);
+    return new RefreshIndicator(
+      onRefresh: onRefresh,
+      child: listView,
+      //displacement: 2.0,
+    );
   }
 
   @override
@@ -49,16 +58,23 @@ class LoadingListViewState<T> extends State<LoadingListView<T>> {
     this.lockedLoadNext();
   }
 
-  Future<Null> onRefresh() async{
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  Future<Null> onRefresh() async {
     this.request?.timeout(const Duration());
     List<T> fetched = await widget.pageRequest(0, widget.pageSize);
+    isLoadMore = true;
 
-      setState(() {
-        this.objects.clear();
-        this.index.clear();
+    setState(() {
+      this.objects.clear();
+      this.index.clear();
 //        this.addObjects(fetched);
-        objects.addAll(fetched);
-      });
+      objects.addAll(fetched);
+    });
 
     return null;
   }
@@ -68,23 +84,45 @@ class LoadingListViewState<T> extends State<LoadingListView<T>> {
       lockedLoadNext();
     }
 
+    if (index == objects.length) return _buildProgressIndicator();
+
     return widget.widgetAdapter != null
         ? widget.widgetAdapter(objects[index])
         : new Container();
   }
 
-  Future loadNext() async{
-    int page = (objects.length / widget.pageSize).ceil() + 1;
-    List<T> fetched = await widget.pageRequest(page, widget.pageSize);
+  Future loadNext() async {
+    if (!isPerformingRequest && isLoadMore) {
+      setState(() => isPerformingRequest = true);
 
-    if (fetched == null || fetched.length == 0 ) return;
+      int page = (objects.length / widget.pageSize).ceil() + 1;
+      List<T> fetched = await widget.pageRequest(page, widget.pageSize);
+
+      if (fetched == null ||
+          fetched.length == 0 ||
+          fetched.length < widget.pageSize) {
+//        double edge = 50.0;
+//        double offsetFromBottom = _scrollController.position.maxScrollExtent - _scrollController.position.pixels;
+//        if (offsetFromBottom < edge) {
+//          _scrollController.animateTo(
+//              _scrollController.offset - (edge -offsetFromBottom),
+//              duration: new Duration(milliseconds: 500),
+//              curve: Curves.easeOut);
+//        }
+        this.setState(() {
+          isLoadMore = false;
+          //isPerformingRequest = false;
+        });
+      }
 
       if (mounted) {
         this.setState(() {
           //this.addObjects(fetched);
           objects.addAll(fetched);
+          isPerformingRequest = false;
         });
       }
+    }
   }
 
   void lockedLoadNext() {
@@ -103,5 +141,17 @@ class LoadingListViewState<T> extends State<LoadingListView<T>> {
         this.index[widget.indexer(object)] = index;
       }
     });
+  }
+
+  Widget _buildProgressIndicator() {
+    return new Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: new Center(
+        child: new Opacity(
+          opacity: isPerformingRequest ? 1.0 : 0.0,
+          child: new CircularProgressIndicator(),
+        ),
+      ),
+    );
   }
 }
