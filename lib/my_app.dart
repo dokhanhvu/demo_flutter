@@ -48,6 +48,7 @@ ThemeData _buildAppTheme() {
     //primaryColor: Color(0xFFffffff),
     primaryColor: Colors.blue,
     buttonColor: Color(0xFF32CD32),
+//    splashColor: Colors.lightGreenAccent,
     scaffoldBackgroundColor: Colors.white,
     cardColor: Colors.white,
     textSelectionColor: Color(0xFFFEDBD0),

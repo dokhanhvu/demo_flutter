@@ -1,3 +1,5 @@
+import 'dart:async';
+
 // Copyright 2018-present the Flutter authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +16,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/misc/auth_manager.dart';
-import 'package:flutter_app/misc/colors.dart';
+import 'package:flutter_app/ui/widget/sign_button.dart';
 
 class LoginScreen extends StatefulWidget {
   final AuthManager _authManager;
@@ -33,16 +35,17 @@ class _LoginPageState extends State<LoginScreen> {
 
   _LoginPageState(this._authManager);
 
-  void _handleSubmit() {
-    _authManager
-        .login(_usernameController.text, _passwordController.text)
-        .then((success) {
-      if (success) {
-        Navigator.pushReplacementNamed(context, '/home');
-      } else {
-        // TODO show an error
-      }
-    });
+  Future<bool> _handleSubmit(/*BuildContext context*/) {
+    return _authManager.login(
+        _usernameController.text, _passwordController.text);
+//        .then((success) {
+//      if (success) {
+//        Navigator.pushReplacementNamed(context, '/home');
+//      } else {
+//        return false;
+//      }
+//    });
+//    return true;
   }
 
   @override
@@ -68,37 +71,7 @@ class _LoginPageState extends State<LoginScreen> {
               ],
             ),
             SizedBox(height: 12.0),
-//            new Container(
-//              child: new Form(
-//                  child: new Column(
-//                children: <Widget>[
-//                  new TextFormField(
-//                    key: new Key('username'),
-//                    controller: _usernameController,
-//                    decoration: new InputDecoration(
-//                        hintText: "Username or email"),
-//                    autofocus: true,
-//                  ),
-//                  SizedBox(height: 12.0),
-//                  new TextFormField(
-//                    controller: _passwordController,
-//                    decoration:
-//                        new InputDecoration(hintText: "Password"),
-//                    obscureText: true,
-//                  ),
-//                  SizedBox(height: 12.0),
-//                  new RaisedButton(
-//                    shape: new RoundedRectangleBorder(
-//                      borderRadius: BorderRadius.all(Radius.circular(7.0)),
-//                    ),
-//                    child: Text('NEXT'),
-//                    onPressed: _handleSubmit,
-//                    splashColor: Colors.lightGreenAccent,
-//                    elevation: 8.0,
-//                  ),
-//                ],
-//              )),
-//            ),
+
             TextField(
               controller: _usernameController,
               decoration: InputDecoration(
@@ -114,14 +87,18 @@ class _LoginPageState extends State<LoginScreen> {
               obscureText: true,
             ),
             SizedBox(height: 12.0),
-            RaisedButton(
-              shape: new RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(7.0)),
-              ),
-              child: Text('NEXT'),
+//            RaisedButton(
+//              shape: new RoundedRectangleBorder(
+//                borderRadius: BorderRadius.all(Radius.circular(7.0)),
+//              ),
+//              child: Text('Sign In'),
+//              onPressed: _handleSubmit,
+//              splashColor: Colors.lightGreenAccent,
+//              elevation: 8.0,
+//            ),
+            SignButton(
               onPressed: _handleSubmit,
-              splashColor: Colors.lightGreenAccent,
-              elevation: 8.0,
+              context: context,
             ),
           ],
         ),

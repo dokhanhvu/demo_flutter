@@ -38,6 +38,6 @@ class FollowersState extends State<Followers>{
 
 }
 
-Widget adapt(User user, {Animation<double> animation}){
+Widget adapt(User user){
   return new UserTile(user);
 }
