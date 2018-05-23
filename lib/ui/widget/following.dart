@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/data/api.dart';
 import 'package:flutter_app/misc/auth_manager.dart';
 import 'package:flutter_app/model/user.dart';
-import 'package:flutter_app/ui/Tile/MapTile.dart';
-import 'package:flutter_app/ui/Tile/UserTile.dart';
-import 'package:flutter_app/ui/widget/LoadingListView.dart';
+import 'package:flutter_app/ui/Tile/animation_tile.dart';
+import 'package:flutter_app/ui/Tile/map_tile.dart';
+import 'package:flutter_app/ui/Tile/user_tile.dart';
+import 'package:flutter_app/ui/widget/loadinglistview.dart';
 
 class Following extends StatefulWidget{
 
@@ -40,5 +41,9 @@ class FollowersState extends State<Following>{
 }
 
 Widget adapt(Map map){
+  return new AnimationTile(map, adaptTile);
+}
+
+Widget adaptTile(Map map){
   return new MapTile(map);
 }

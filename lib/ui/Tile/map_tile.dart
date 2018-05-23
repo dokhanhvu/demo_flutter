@@ -18,7 +18,7 @@ class MapTile extends StatelessWidget{
       children: <Widget>[
         ListTile(
           leading: new CircleAvatar(
-            backgroundImage: NetworkImage(user.avatar, scale: 6.0),
+            backgroundImage: CachedNetworkImageProvider(user.avatar, scale: 6.0),
             backgroundColor: Colors.grey,
           ),
           title: new Text(user.username),

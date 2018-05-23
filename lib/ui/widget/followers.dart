@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/data/api.dart';
 import 'package:flutter_app/misc/auth_manager.dart';
 import 'package:flutter_app/model/user.dart';
-import 'package:flutter_app/ui/Tile/UserTile.dart';
-import 'package:flutter_app/ui/widget/LoadingListView.dart';
+import 'package:flutter_app/ui/Tile/animation_tile.dart';
+import 'package:flutter_app/ui/Tile/user_tile.dart';
+import 'package:flutter_app/ui/widget/loadinglistview.dart';
 
 class Followers extends StatefulWidget{
 
@@ -39,5 +40,9 @@ class FollowersState extends State<Followers>{
 }
 
 Widget adapt(User user){
+  return new AnimationTile(user, adaptTile);
+}
+
+Widget adaptTile(User user){
   return new UserTile(user);
 }

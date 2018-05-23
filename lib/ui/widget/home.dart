@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/misc/auth_manager.dart';
-import 'package:flutter_app/ui/widget/Followers.dart';
-import 'package:flutter_app/ui/widget/Following.dart';
-import 'package:flutter_app/ui/widget/RandomWords.dart';
+import 'package:flutter_app/ui/widget/followers.dart';
+import 'package:flutter_app/ui/widget/following.dart';
+import 'package:flutter_app/ui/widget/randomwords.dart';
 
 class HomeScreen extends StatefulWidget {
 
