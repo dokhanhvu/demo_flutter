@@ -36,7 +36,7 @@ class AuthManager {
       await logout();
     } else {
       _loggedIn = true;
-      _ownerName = ownerName;
+      _ownerName = 'dutn158';
       _oauthClient = new OauthClient(_client, oauthToken);
     }
 

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/misc/auth_manager.dart';
-import 'package:flutter_app/ui/widget/followers.dart';
-import 'package:flutter_app/ui/widget/following.dart';
-import 'package:flutter_app/ui/widget/randomwords.dart';
+import 'package:flutter_app/ui/view/followers.dart';
+import 'package:flutter_app/ui/view/following.dart';
+import 'package:flutter_app/ui/view/profile_overview.dart';
+import 'package:flutter_app/ui/view/randomwords.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -53,10 +54,13 @@ class HomeScreenState extends State<HomeScreen> {
             bottom: new TabBar(tabs: [
               new Tab(text: "Follower"),
               new Tab(text: "Following"),
-              new Tab(text: "NavigatorDemo",)
+              new Tab(text: "Profile",)
             ]),
           ),
-          body: new TabBarView(children: [new Followers(widget._authManager.ownerName, widget._authManager), new Following(widget._authManager.ownerName, widget._authManager), new RandomWords()]),
+          body: new TabBarView(children: [
+            new Followers(widget._authManager.ownerName, widget._authManager),
+            new Following(widget._authManager.ownerName, widget._authManager),
+            new ProfileOverview(widget._authManager)]),
         ));
   }
 }

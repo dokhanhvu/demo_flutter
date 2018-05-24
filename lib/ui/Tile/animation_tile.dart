@@ -52,7 +52,7 @@ class _AnimationTileState<T> extends State<AnimationTile<T>>
   Widget build(BuildContext context) {
     return new Opacity(opacity: _opacityTween.evaluate(animation),
         child: new Container(
-          margin: new EdgeInsets.only(left: 20.0 - _sizeTween.evaluate(animation)),
+          padding: new EdgeInsets.only(left: 20.0 - _sizeTween.evaluate(animation)),
           child: widget.tileAdapter(widget.data)
         ));
   }

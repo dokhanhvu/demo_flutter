@@ -12,7 +12,7 @@ class Api {
 
   Future<List<User>> getFollowers(
       int pageNumber, int pageSize, String userName) async {
-    userName = 'dutn158';
+    //userName = 'dutn158';
     String url =
         "$BASE_URL/users/$userName/followers?page=$pageNumber&per_page=$pageSize";
 
@@ -34,7 +34,7 @@ class Api {
 
   Future<List<User>> getFollowing(
       int pageNumber, int pageSize, String userName) async {
-    userName = 'dutn158';
+    //userName = 'dutn158';
     String url =
         "$BASE_URL/users/$userName/following?page=$pageNumber&per_page=$pageSize";
 
@@ -57,7 +57,7 @@ class Api {
 
   Future<List<Map<String, dynamic>>> getFollowing2(
       int pageNumber, int pageSize, String userName) async {
-    userName = 'dutn158';
+    //userName = 'dutn158';
     String url =
         "$BASE_URL/users/$userName/following?page=$pageNumber&per_page=$pageSize";
 
@@ -78,6 +78,20 @@ class Api {
       print(exception.toString());
     }
     return null;
+  }
+
+  Future<User> loadUser() async {
+    var oauthClient = _authManager.oauthClient;
+    var response = await oauthClient
+        .get('https://api.github.com/users/${_authManager.ownerName}')
+        .whenComplete(oauthClient.close);
+
+    if (response.statusCode == 200) {
+      var decoded = JSON.decode(response.body);
+      return new User.fromJson(decoded);
+    } else {
+      throw new Exception('Could not get current user');
+    }
   }
 
 }

@@ -28,22 +28,34 @@ class FollowersState extends State<Following>{
   @override
   Widget build(BuildContext context) {
     Widget w;
-    w = new LoadingListView<Map>(
-      request, widgetAdapter: adapt, pageSize: widget.pageSize, pageThreshold: widget.pageThreshold,);
-    return w;
+    w = new LoadingListView<User>(
+      request, widgetAdapter: adaptTile, pageSize: widget.pageSize, pageThreshold: widget.pageThreshold,);
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              new Text(widget._userName),
+              new Text('Following', style: new TextStyle(fontSize: 12.0))
+            ]
+        ),
+      ),
+      body: w,
+    );
   }
 
-  Future<List<Map>> request(int page, int pageSize) async {
+  Future<List<User>> request(int page, int pageSize) async {
     Api api = new Api(widget._authManager);
-    return api.getFollowing2(page, pageSize, widget._userName);
+    return api.getFollowing(page, pageSize, widget._userName);
   }
 
 }
 
-Widget adapt(Map map){
-  return new AnimationTile(map, adaptTile);
-}
+//Widget adapt(Map map){
+//  return new AnimationTile(map, adaptTile);
+//}
 
-Widget adaptTile(Map map){
-  return new MapTile(map);
+Widget adaptTile(User user){
+  return new UserTile(user);
 }

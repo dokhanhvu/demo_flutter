@@ -28,8 +28,20 @@ class FollowersState extends State<Followers>{
   Widget build(BuildContext context) {
     Widget w;
     w = new LoadingListView<User>(
-        request, widgetAdapter: adapt, pageSize: widget.pageSize, pageThreshold: widget.pageThreshold,);
-    return w;
+        request, widgetAdapter: adaptTile, pageSize: widget.pageSize, pageThreshold: widget.pageThreshold,);
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              new Text(widget._userName),
+              new Text('Followers', style: new TextStyle(fontSize: 12.0))
+            ]
+        ),
+      ),
+      body: w,
+    );
   }
 
   Future<List<User>> request(int page, int pageSize) async {
@@ -39,9 +51,9 @@ class FollowersState extends State<Followers>{
 
 }
 
-Widget adapt(User user){
-  return new AnimationTile(user, adaptTile);
-}
+//Widget adapt(User user){
+//  return new AnimationTile(user, adaptTile);
+//}
 
 Widget adaptTile(User user){
   return new UserTile(user);
