@@ -43,10 +43,11 @@ class _UserTileState extends State<UserTile>
   AnimationController controller;
   Animation<double> animation;
   CachedNetworkImageProvider image;
+  Image image2;
   final User _user;
 
   static final _opacityTween = new Tween<double>(begin: 0.1, end: 1.0);
-  static final _sizeTween = new Tween<double>(begin: 0.0, end: 20.0);
+  static final _sizeTween = new Tween<double>(begin: -20.0, end: 0.0);
 
   _UserTileState(this._user);
 

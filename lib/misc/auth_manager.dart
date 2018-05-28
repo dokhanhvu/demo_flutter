@@ -28,7 +28,7 @@ class AuthManager {
 
   Future init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String ownerName = prefs.getString(KEY_OWNER_NAME);
+    String ownerName = 'dutn158';//prefs.getString(KEY_OWNER_NAME);
     String oauthToken = prefs.getString(KEY_OAUTH_TOKEN);
 
     if (ownerName == null || oauthToken == null) {

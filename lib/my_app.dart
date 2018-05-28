@@ -6,7 +6,7 @@ import 'package:flutter_app/ui/view/following.dart';
 import 'package:flutter_app/ui/view/home_screen.dart';
 import 'package:flutter_app/ui/view/login_screen.dart';
 import 'package:flutter_app/ui/view/main_screen.dart';
-import 'package:flutter_app/ui/widget/splash_screen.dart';
+import 'package:flutter_app/ui/view/splash_screen.dart';
 
 class MyApp extends StatelessWidget {
   final AuthManager _authManager = new AuthManager();

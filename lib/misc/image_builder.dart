@@ -1,5 +1,10 @@
+
+import 'dart:async';
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:flutter/foundation.dart';
 import 'package:image/image.dart';
-import 'package:http/http.dart' as http;
 
 class ImageBuilder {
 
@@ -13,15 +18,32 @@ class ImageBuilder {
     return _image;
   }
 
-  ImageBuilder loadImage(String url){
+  ImageBuilder load(String url){
 
-    var data = http.readBytes(url);
+    loadImage(url).then((data){
 
-    data.then((buffer) {
-      _image = decodeImage(buffer);
-    }
-    );
+      _image = decodeImage(data);
+
+    });
+
     return this;
+  }
+
+  Future<Uint8List> loadImage(String url) async{
+
+    HttpClient client = new HttpClient();
+    Uri resolved = Uri.base.resolve(url);
+    HttpClientRequest clientRequest = await client.getUrl(resolved);
+    HttpClientResponse response = await clientRequest.close();
+    Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+
+//    var data = http.readBytes(url);
+//
+//    data.then((buffer) {
+//      _image = decodeImage(buffer);
+//    }
+//    );
+    return bytes;
   }
 
   ImageBuilder resize(int size)
@@ -29,4 +51,6 @@ class ImageBuilder {
     _image = copyResize(_image, size);
     return this;
   }
+
+
 }

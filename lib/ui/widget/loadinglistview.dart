@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/misc/function.dart';
 import 'package:meta/meta.dart';
@@ -35,11 +35,14 @@ class LoadingListViewState<T> extends State<LoadingListView<T>> {
   ScrollController _scrollController = new ScrollController();
   bool isPerformingRequest = false;
   bool isLoadMore = true;
+  final pagesCompleted = Set<int>();
 
   @override
   Widget build(BuildContext context) {
     ListView listView = new ListView.builder(
-      itemBuilder: itemBuilder,
+      itemBuilder: (context, i) {
+        return itemBuilder(getItem(i));
+      },
       itemCount: objects.length + (isLoadMore ? 1 : 0),
       reverse: widget.reverse,
       controller: _scrollController,
@@ -48,7 +51,6 @@ class LoadingListViewState<T> extends State<LoadingListView<T>> {
     return new RefreshIndicator(
       onRefresh: onRefresh,
       child: listView,
-      //displacement: 2.0,
     );
   }
 
@@ -66,7 +68,7 @@ class LoadingListViewState<T> extends State<LoadingListView<T>> {
 
   Future<Null> onRefresh() async {
     this.request?.timeout(const Duration());
-    List<T> fetched = await widget.pageRequest(0, widget.pageSize);
+    List<T> fetched = await widget.pageRequest(1, widget.pageSize);
     isLoadMore = true;
 
     setState(() {
@@ -74,21 +76,47 @@ class LoadingListViewState<T> extends State<LoadingListView<T>> {
       this.index.clear();
 //        this.addObjects(fetched);
       objects.addAll(fetched);
+      pagesCompleted.clear();
     });
 
     return null;
   }
 
-  Widget itemBuilder(BuildContext context, int index) {
-    if (index + widget.pageThreshold > objects.length) {
-      lockedLoadNext();
+  Future<T> getItem(int index) {
+    final pageIndex = pageIndexFromProductIndex(index);
+    if (index == objects.length) return null;
+    if (pagesCompleted.contains(pageIndex)) {
+      if (index + widget.pageThreshold > objects.length) {
+        lockedLoadNext();
+      }
     }
+    return Future.value(objects[index]);
+  }
 
-    if (index == objects.length) return _buildProgressIndicator();
+  Widget itemBuilder(Future<T> future) {
+//    if (index + widget.pageThreshold > objects.length) {
+//      lockedLoadNext();
+//    }
+//
+//    if (index == objects.length) return _buildProgressIndicator();
+//
+//    return widget.widgetAdapter != null
+//        ? widget.widgetAdapter(objects[index])
+//        : new Container();
 
-    return widget.widgetAdapter != null
-        ? widget.widgetAdapter(objects[index])
-        : new Container();
+    if (future == null) {
+      return _buildProgressIndicator();
+    } else {
+      return new FutureBuilder<T>(
+        future: future,
+        builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
+          if (snapshot.hasData)
+            return widget.widgetAdapter(snapshot.data);
+          else
+            return new Container();
+        },
+      );
+    }
   }
 
   Future loadNext() async {
@@ -101,14 +129,6 @@ class LoadingListViewState<T> extends State<LoadingListView<T>> {
       if (fetched == null ||
           fetched.length == 0 ||
           fetched.length < widget.pageSize) {
-//        double edge = 50.0;
-//        double offsetFromBottom = _scrollController.position.maxScrollExtent - _scrollController.position.pixels;
-//        if (offsetFromBottom < edge) {
-//          _scrollController.animateTo(
-//              _scrollController.offset - (edge -offsetFromBottom),
-//              duration: new Duration(milliseconds: 500),
-//              curve: Curves.easeOut);
-//        }
         this.setState(() {
           isLoadMore = false;
           //isPerformingRequest = false;
@@ -116,6 +136,7 @@ class LoadingListViewState<T> extends State<LoadingListView<T>> {
       }
 
       if (mounted) {
+        pagesCompleted.add(page - 1);
         this.setState(() {
           //this.addObjects(fetched);
           objects.addAll(fetched);
@@ -153,5 +174,21 @@ class LoadingListViewState<T> extends State<LoadingListView<T>> {
         ),
       ),
     );
+  }
+
+  int pageIndexFromProductIndex(int productIndex) {
+    return productIndex ~/ widget.pageSize;
+  }
+}
+
+class Cache<T> {
+  final map = HashMap<int, T>();
+
+  Future<T> get(int index) {
+    return Future.value(map[index]);
+  }
+
+  put(int index, object) {
+    map[index] = object;
   }
 }

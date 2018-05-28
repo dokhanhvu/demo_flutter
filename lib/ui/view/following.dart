@@ -28,7 +28,7 @@ class FollowersState extends State<Following>{
   @override
   Widget build(BuildContext context) {
     Widget w;
-    w = new LoadingListView<User>(
+    w = new LoadingListView<Map>(
       request, widgetAdapter: adaptTile, pageSize: widget.pageSize, pageThreshold: widget.pageThreshold,);
     return new Scaffold(
       appBar: new AppBar(
@@ -45,17 +45,17 @@ class FollowersState extends State<Following>{
     );
   }
 
-  Future<List<User>> request(int page, int pageSize) async {
+  Future<List<Map>> request(int page, int pageSize) async {
     Api api = new Api(widget._authManager);
-    return api.getFollowing(page, pageSize, widget._userName);
+    return api.getFollowing2(page, pageSize, widget._userName);
   }
 
 }
 
-//Widget adapt(Map map){
-//  return new AnimationTile(map, adaptTile);
+//Widget adapt(User user){
+//  return new AnimationTile(user, adaptTile);
 //}
 
-Widget adaptTile(User user){
-  return new UserTile(user);
+Widget adaptTile(Map user){
+  return new MapTile(user);
 }
