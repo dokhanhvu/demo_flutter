@@ -66,15 +66,24 @@ class LoadingListViewState<T> extends State<LoadingListView<T>> {
 
   Future<Null> onRefresh() async {
     this.request?.timeout(const Duration());
-    List<T> fetched = await widget.pageRequest(0, widget.pageSize);
+
+    Future<List<T>> fetched = widget.pageRequest(0, widget.pageSize);
     isLoadMore = true;
 
-    setState(() {
-      this.objects.clear();
-      this.index.clear();
-//        this.addObjects(fetched);
-      objects.addAll(fetched);
+    fetched.then((onValue) {
+
+      setState((){
+
     });
+
+    });
+
+//    setState(() {
+//      this.objects.clear();
+//      this.index.clear();
+////        this.addObjects(fetched);
+//      objects.addAll(fetched);
+//    });
 
     return null;
   }

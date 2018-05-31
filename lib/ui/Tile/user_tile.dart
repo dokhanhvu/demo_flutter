@@ -53,7 +53,7 @@ class _UserTileState extends State<UserTile>
   @override
   void initState() {
     super.initState();
-   image = CachedNetworkImageProvider(_user.avatar, scale: 6.0);
+    image = CachedNetworkImageProvider(_user.avatar, scale: 6.0);
     controller = new AnimationController(
         duration: const Duration(milliseconds: 300), vsync: this)
       ..addListener(() {
@@ -68,22 +68,31 @@ class _UserTileState extends State<UserTile>
 
   @override
   Widget build(BuildContext context) {
-    return new Opacity(opacity: _opacityTween.evaluate(animation),
-    child: new Container(
-      margin: new EdgeInsets.only(left: 20.0 - _sizeTween.evaluate(animation)),
-      child: new Column(
-        children: <Widget>[
-          ListTile(
-            leading: new CircleAvatar(
-              backgroundImage: image,
-              backgroundColor: Colors.grey,
-            ),
-            title: new Text(_user.login),
+    return new Opacity(
+        opacity: _opacityTween.evaluate(animation),
+        child: new Container(
+          margin:
+              new EdgeInsets.only(left: 20.0 - _sizeTween.evaluate(animation)),
+          child: new Column(
+            children: <Widget>[
+//          ListTile(
+//            leading: new CircleAvatar(
+//              backgroundImage: image,
+//              backgroundColor: Colors.grey,
+//            ),
+//            title: new Text(_user.login),
+//          ),
+              new Chip(
+                label: new Text(_user.login),
+                avatar: new CircleAvatar(
+                  backgroundImage: image,
+                  backgroundColor: Colors.grey,
+                ),
+              ),
+              new Divider()
+            ],
           ),
-          new Divider()
-        ],
-      ),
-    ));
+        ));
   }
 
   @override
