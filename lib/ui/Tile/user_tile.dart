@@ -1,6 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/misc/auth_manager.dart';
+import 'package:flutter_app/misc/routes.dart';
 import 'package:flutter_app/model/user.dart';
+import 'package:flutter_app/ui/view/profile_overview.dart';
 
 //class UserTile extends StatelessWidget{
 //  //final Map map;
@@ -30,12 +34,13 @@ import 'package:flutter_app/model/user.dart';
 
 class UserTile extends StatefulWidget {
   //final Map map;
-  final User user;
+  final User _user;
+  final AuthManager _authManager;
 
-  UserTile(this.user);
+  UserTile(this._user, this._authManager);
 
   @override
-  createState() => new _UserTileState(user);
+  createState() => new _UserTileState(_user, _authManager);
 }
 
 class _UserTileState extends State<UserTile>
@@ -44,11 +49,12 @@ class _UserTileState extends State<UserTile>
   Animation<double> animation;
   CachedNetworkImageProvider image;
   final User _user;
+  final AuthManager _authManager;
 
   static final _opacityTween = new Tween<double>(begin: 0.1, end: 1.0);
   static final _sizeTween = new Tween<double>(begin: 0.0, end: 20.0);
 
-  _UserTileState(this._user);
+  _UserTileState(this._user, this._authManager);
 
   @override
   void initState() {
@@ -75,18 +81,19 @@ class _UserTileState extends State<UserTile>
               new EdgeInsets.only(left: 20.0 - _sizeTween.evaluate(animation)),
           child: new Column(
             children: <Widget>[
-//          ListTile(
-//            leading: new CircleAvatar(
-//              backgroundImage: image,
-//              backgroundColor: Colors.grey,
-//            ),
-//            title: new Text(_user.login),
-//          ),
-              new Chip(
-                label: new Text(_user.login),
-                avatar: new CircleAvatar(
+              ListTile(
+                leading: new CircleAvatar(
                   backgroundImage: image,
                   backgroundColor: Colors.grey,
+                ),
+                title: new Text(_user.login),
+//                onTap: () {
+//                  Navigator.pushNamed(
+//                      context, '/users/${_user.login}/profileoverview');
+//                },
+                trailing: FlatButton(
+                  child: Text('Click'),
+                  onPressed: () => Navigator.pushNamed(context, '/follower/${_user.login}'),
                 ),
               ),
               new Divider()
@@ -100,4 +107,5 @@ class _UserTileState extends State<UserTile>
     controller.dispose();
     super.dispose();
   }
+
 }

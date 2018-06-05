@@ -18,14 +18,14 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   MediaQueryData queryData;
 
-  
+
 
   @override
   Widget build(BuildContext context) {
 
     queryData = MediaQuery.of(context);
     double devicePixelRatio = queryData.devicePixelRatio;
-    
+
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Device Info"),

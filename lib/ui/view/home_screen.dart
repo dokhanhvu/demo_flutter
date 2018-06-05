@@ -5,32 +5,22 @@ import 'package:flutter_app/ui/view/following.dart';
 import 'package:flutter_app/ui/view/profile_overview.dart';
 import 'package:flutter_app/ui/view/randomwords.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
 
   final AuthManager _authManager;
 
   HomeScreen(this._authManager);
 
-  @override
-  createState() => new HomeScreenState(_authManager);
-}
-
-class HomeScreenState extends State<HomeScreen> {
-
-  final AuthManager _authManager;
-
-  HomeScreenState(this._authManager);
-
-  void _overflow(OverflowItem selected) {
-    switch (selected) {
-      case OverflowItem.Settings:
-        break;
-      case OverflowItem.LogOut:
-        _authManager.logout()
-            .then((_) => Navigator.pushReplacementNamed(context, '/login'));
-        break;
-    }
-  }
+//  void _overflow(OverflowItem selected) {
+//    switch (selected) {
+//      case OverflowItem.Settings:
+//        break;
+//      case OverflowItem.LogOut:
+//        _authManager.logout()
+//            .then((_) => Navigator.pushReplacementNamed(context, '/login'));
+//        break;
+//    }
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +31,16 @@ class HomeScreenState extends State<HomeScreen> {
             title: new Text("Demo_Flutter"),
             actions: [
               new PopupMenuButton<OverflowItem>(
-                  onSelected: _overflow,
+                  onSelected: (OverflowItem selected) {
+                    switch (selected) {
+                      case OverflowItem.Settings:
+                        break;
+                      case OverflowItem.LogOut:
+                        _authManager.logout()
+                            .then((_) => Navigator.pushReplacementNamed(context, '/login'));
+                        break;
+                    }
+                  },
                   itemBuilder: (BuildContext context) {
                     return [
 //                  new PopupMenuItem(value: OverflowItem.Settings,
@@ -52,15 +51,16 @@ class HomeScreenState extends State<HomeScreen> {
                   })
             ],
             bottom: new TabBar(tabs: [
-              new Tab(text: "Follower"),
+              new Tab(text: "Profile",),
               new Tab(text: "Following"),
-              new Tab(text: "Profile",)
+              new Tab(text: "Follower"),
             ]),
           ),
           body: new TabBarView(children: [
-            new Followers(widget._authManager.ownerName, widget._authManager),
-            new Following(widget._authManager.ownerName, widget._authManager),
-            new ProfileOverview(widget._authManager)]),
+            new ProfileOverview(_authManager.ownerName, _authManager),
+            new Following(_authManager.ownerName, _authManager),
+            new Followers(_authManager.ownerName, _authManager,),
+          ]),
         ));
   }
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/misc/auth_manager.dart';
+import 'package:flutter_app/misc/function.dart';
 import 'package:flutter_app/ui/view/followers.dart';
 import 'package:flutter_app/ui/view/following.dart';
 import 'package:flutter_app/ui/view/profile_overview.dart';
+import 'package:flutter_app/ui/widget/Custom_PopupMenuButton.dart';
 
 class MainScreen extends StatefulWidget {
 
@@ -14,7 +16,7 @@ class MainScreen extends StatefulWidget {
   _MainScreenState createState() => new _MainScreenState(_authManager);
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen>{
   /// This controller can be used to programmatically
   /// set the current displayed page
   PageController _pageController;
@@ -32,26 +34,18 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: new AppBar(
-          title: new Text("Demo_Flutter"),
-          actions: [
-            new PopupMenuButton<OverflowItem>(
-                onSelected: _overflow,
-                itemBuilder: (BuildContext context) {
-                  return [
-//                  new PopupMenuItem(value: OverflowItem.Settings,
-//                      child: new Text('Settings')),
-                    new PopupMenuItem<OverflowItem>(
-                        value: OverflowItem.LogOut, child: new Text('Log out'))
-                  ];
-                })
-          ],
-        ),
+//        appBar: new AppBar(
+//          title: new Text("Demo_Flutter"),
+//          actions: [
+//            new CustomPopupMenuButton(_authManager, context)
+//          ],
+//        ),
         body: new PageView(
+
             children: [
-              new ProfileOverview(widget._authManager),
-              new Following(_authManager.ownerName, _authManager),
-              new Container()
+              new ProfileOverview(_authManager.ownerName, _authManager),
+              new Following(_authManager.ownerName, _authManager, /*key: new ValueKey<String>('FollowingList'),*/),
+              new Followers(_authManager.ownerName, _authManager,/*key: new ValueKey<String>('FollowersList'),*/)
             ],
 
             /// Specify the page controller
@@ -106,7 +100,9 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    _pageController = new PageController();
+    _pageController = new PageController(
+      keepPage: true,
+    );
   }
 
   @override
@@ -115,19 +111,4 @@ class _MainScreenState extends State<MainScreen> {
     _pageController.dispose();
   }
 
-  void _overflow(OverflowItem selected) {
-    switch (selected) {
-      case OverflowItem.Settings:
-        break;
-      case OverflowItem.LogOut:
-        _authManager.logout()
-            .then((_) => Navigator.pushReplacementNamed(context, '/login'));
-        break;
-    }
-  }
-}
-
-enum OverflowItem {
-  Settings,
-  LogOut
 }

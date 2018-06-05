@@ -3,36 +3,54 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/data/api.dart';
 import 'package:flutter_app/misc/auth_manager.dart';
 import 'package:flutter_app/model/user.dart';
+import 'package:flutter_app/ui/widget/Custom_PopupMenuButton.dart';
 
 class ProfileOverview extends StatefulWidget {
   final AuthManager _authManager;
+  final String _userName;
 
-  ProfileOverview(this._authManager);
+  ProfileOverview(this._userName, this._authManager);
 
   @override
-  _ProfileOverviewState createState() => new _ProfileOverviewState();
+  _ProfileOverviewState createState() => new _ProfileOverviewState(this._authManager, this._userName);
 }
 
-class _ProfileOverviewState extends State<ProfileOverview> {
+class _ProfileOverviewState extends State<ProfileOverview> with AutomaticKeepAliveClientMixin<ProfileOverview> {
+  final AuthManager _authManager;
+  final String _userName;
+
+  _ProfileOverviewState(this._authManager, this._userName);
+
   Api api;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    api = new Api(widget._authManager);
+    api = new Api(_authManager);
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Column(
-      children: <Widget>[_buildProfileView()],
+    return Scaffold(
+      appBar: new AppBar(
+        title: new Text("Demo_Flutter"),
+        actions: [
+          new CustomPopupMenuButton(_authManager, context)
+        ],
+        ),
+      body: new Column(
+        children: <Widget>[_buildProfileView()],
+      ),
     );
+//    return new Column(
+//      children: <Widget>[_buildProfileView()],
+//    );
   }
 
   Widget _buildProfileView() {
     return new FutureBuilder<User>(
-      future: api.loadUser(),
+      future: api.loadUser(_userName),
       builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -136,4 +154,8 @@ class _ProfileOverviewState extends State<ProfileOverview> {
       ],
     );
   }
+
+  // TODO: implement wantKeepAlive
+  @override
+  bool get wantKeepAlive => true;
 }

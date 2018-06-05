@@ -17,18 +17,53 @@ class LoadingListView<T> extends StatefulWidget {
 
   final Indexer<T> indexer;
 
+//  static final Map<Key, LoadingListView> _cache =
+//  <Key, LoadingListView>{};
+
   LoadingListView(this.pageRequest,
       {this.pageSize: 50,
       this.pageThreshold: 20,
       @required this.widgetAdapter,
       this.reverse: false,
-      this.indexer});
+      this.indexer,
+      Key key}) : super(key: key);
+
+//  factory LoadingListView(PageRequest<T> pageRequest,
+//      {int pageSize,
+//        int pageThreshold,
+//        @required WidgetAdapter<T> widgetAdapter,
+//        bool reverse: false,
+//        Indexer<T> indexer,
+//        Key key}){
+//
+//    if (_cache.containsKey(key)) {
+//      return _cache[key];
+//    } else {
+//      final logger = new LoadingListView._internal(pageRequest,
+//      pageSize: pageSize,
+//      indexer: indexer,
+//      key: key,
+//      widgetAdapter: widgetAdapter,
+//      pageThreshold: pageThreshold,
+//      reverse: reverse,);
+//      _cache[key] = logger;
+//      return logger;
+//    }
+//  }
+
+//    LoadingListView._internal(this.pageRequest,
+//      {this.pageSize: 50,
+//      this.pageThreshold: 20,
+//      @required this.widgetAdapter,
+//      this.reverse: false,
+//      this.indexer,
+//      Key key}) : super(key: key);
 
   @override
   createState() => new LoadingListViewState<T>();
 }
 
-class LoadingListViewState<T> extends State<LoadingListView<T>> {
+class LoadingListViewState<T> extends State<LoadingListView<T>>{
   List<T> objects = [];
   Map<int, int> index = {};
   Future request;
@@ -146,9 +181,9 @@ class LoadingListViewState<T> extends State<LoadingListView<T>> {
     objects.forEach((T object) {
       int index = this.objects.length;
       this.objects.add(object);
-      if (widget.indexer != null) {
-        this.index[widget.indexer(object)] = index;
-      }
+//      if (widget.indexer != null) {
+//        this.index[widget.indexer(object)] = index;
+//      }
     });
   }
 

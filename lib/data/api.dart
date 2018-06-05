@@ -80,10 +80,10 @@ class Api {
     return null;
   }
 
-  Future<User> loadUser() async {
+  Future<User> loadUser(String userName) async {
     var oauthClient = _authManager.oauthClient;
     var response = await oauthClient
-        .get('https://api.github.com/users/${_authManager.ownerName}')
+        .get('https://api.github.com/users/$userName')
         .whenComplete(oauthClient.close);
 
     if (response.statusCode == 200) {
