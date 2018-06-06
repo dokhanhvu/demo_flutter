@@ -4,23 +4,13 @@ import 'package:flutter_app/ui/view/followers.dart';
 import 'package:flutter_app/ui/view/following.dart';
 import 'package:flutter_app/ui/view/profile_overview.dart';
 import 'package:flutter_app/ui/view/randomwords.dart';
+import 'package:flutter_app/ui/widget/Custom_PopupMenuButton.dart';
 
 class HomeScreen extends StatelessWidget {
 
   final AuthManager _authManager;
 
   HomeScreen(this._authManager);
-
-//  void _overflow(OverflowItem selected) {
-//    switch (selected) {
-//      case OverflowItem.Settings:
-//        break;
-//      case OverflowItem.LogOut:
-//        _authManager.logout()
-//            .then((_) => Navigator.pushReplacementNamed(context, '/login'));
-//        break;
-//    }
-//  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,25 +20,7 @@ class HomeScreen extends StatelessWidget {
           appBar: new AppBar(
             title: new Text("Demo_Flutter"),
             actions: [
-              new PopupMenuButton<OverflowItem>(
-                  onSelected: (OverflowItem selected) {
-                    switch (selected) {
-                      case OverflowItem.Settings:
-                        break;
-                      case OverflowItem.LogOut:
-                        _authManager.logout()
-                            .then((_) => Navigator.pushReplacementNamed(context, '/login'));
-                        break;
-                    }
-                  },
-                  itemBuilder: (BuildContext context) {
-                    return [
-//                  new PopupMenuItem(value: OverflowItem.Settings,
-//                      child: new Text('Settings')),
-                      new PopupMenuItem<OverflowItem>(
-                          value: OverflowItem.LogOut, child: new Text('Log out'))
-                    ];
-                  })
+              new CustomPopupMenuButton(_authManager, context)
             ],
             bottom: new TabBar(tabs: [
               new Tab(text: "Profile",),

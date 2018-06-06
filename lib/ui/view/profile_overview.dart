@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/data/api.dart';
 import 'package:flutter_app/misc/auth_manager.dart';
 import 'package:flutter_app/model/user.dart';
-import 'package:flutter_app/ui/widget/Custom_PopupMenuButton.dart';
+import 'package:flutter_app/ui/view/randomwords.dart';
 
 class ProfileOverview extends StatefulWidget {
   final AuthManager _authManager;
@@ -15,7 +15,7 @@ class ProfileOverview extends StatefulWidget {
   _ProfileOverviewState createState() => new _ProfileOverviewState(this._authManager, this._userName);
 }
 
-class _ProfileOverviewState extends State<ProfileOverview> with AutomaticKeepAliveClientMixin<ProfileOverview> {
+class _ProfileOverviewState extends State<ProfileOverview> {
   final AuthManager _authManager;
   final String _userName;
 
@@ -33,12 +33,12 @@ class _ProfileOverviewState extends State<ProfileOverview> with AutomaticKeepAli
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new AppBar(
-        title: new Text("Demo_Flutter"),
-        actions: [
-          new CustomPopupMenuButton(_authManager, context)
-        ],
-        ),
+//      appBar: new AppBar(
+//        title: new Text("Demo_Flutter"),
+//        actions: [
+//          new CustomPopupMenuButton(_authManager, context)
+//        ],
+//        ),
       body: new Column(
         children: <Widget>[_buildProfileView()],
       ),
@@ -122,7 +122,7 @@ class _ProfileOverviewState extends State<ProfileOverview> with AutomaticKeepAli
       children: <Widget>[
         new FlatButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/users/${user.login}/repos');
+            //Navigator.pushNamed(context, '/users/${user.login}/repos');
           },
           child: new Column(
             children: <Widget>[
@@ -133,7 +133,12 @@ class _ProfileOverviewState extends State<ProfileOverview> with AutomaticKeepAli
         ),
         new FlatButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/users/${user.login}/followers');
+              //Navigator.pushNamed(context, '/users/${user.login}/followers');
+              Navigator.of(context, rootNavigator: true).push(new MaterialPageRoute(
+                builder: (context) {
+                  return new RandomWords();
+                }
+              ));
             },
             child: new Column(
               children: <Widget>[
@@ -143,7 +148,7 @@ class _ProfileOverviewState extends State<ProfileOverview> with AutomaticKeepAli
             )),
         new FlatButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/users/${user.login}/following');
+              //Navigator.pushNamed(context, '/users/${user.login}/following');
             },
             child: new Column(
               children: <Widget>[
@@ -154,8 +159,4 @@ class _ProfileOverviewState extends State<ProfileOverview> with AutomaticKeepAli
       ],
     );
   }
-
-  // TODO: implement wantKeepAlive
-  @override
-  bool get wantKeepAlive => true;
 }

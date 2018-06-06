@@ -24,7 +24,7 @@ class Followers extends StatefulWidget {
   createState() => new FollowersState();
 }
 
-class FollowersState extends State<Followers> with AutomaticKeepAliveClientMixin<Followers>{
+class FollowersState extends State<Followers>{
 
   Widget w;
   final Router router = new Router();
@@ -66,7 +66,7 @@ class FollowersState extends State<Followers> with AutomaticKeepAliveClientMixin
     }
 
     return new Scaffold(
-
+      //key: new PageStorageKey<FollowersState>(this),
       body: new Navigator(
         initialRoute: '/',
         onGenerateRoute: router.generator,
@@ -83,10 +83,6 @@ class FollowersState extends State<Followers> with AutomaticKeepAliveClientMixin
   Widget adaptTile(User user) {
     return new UserTile(user, widget._authManager);
   }
-
-  // TODO: implement wantKeepAlive
-  @override
-  bool get wantKeepAlive => true;
 
 //Widget adapt(User user){
 //  return new AnimationTile(user, adaptTile);

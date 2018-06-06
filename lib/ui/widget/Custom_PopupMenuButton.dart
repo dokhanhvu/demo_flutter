@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/misc/auth_manager.dart';
 import 'package:flutter_app/misc/function.dart';
+import 'package:flutter_app/ui/view/randomwords.dart';
 
 class CustomPopupMenuButton extends StatelessWidget {
 
@@ -17,7 +18,9 @@ class CustomPopupMenuButton extends StatelessWidget {
         itemBuilder: (BuildContext context) {
           return [
             new PopupMenuItem<OverflowItem>(
-                value: OverflowItem.LogOut, child: new Text('Log out'))
+                value: OverflowItem.LogOut, child: new Text('Log out')),
+            new PopupMenuItem<OverflowItem>(
+              value: OverflowItem.Settings, child: new Text('click'))
           ];
         });
   }
@@ -25,6 +28,9 @@ class CustomPopupMenuButton extends StatelessWidget {
   void _overflow(OverflowItem selected) {
     switch (selected) {
       case OverflowItem.Settings:
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) => new RandomWords()
+        ));
         break;
       case OverflowItem.LogOut:
         _authManager.logout()

@@ -26,7 +26,7 @@ class LoadingListView<T> extends StatefulWidget {
       @required this.widgetAdapter,
       this.reverse: false,
       this.indexer,
-      Key key}) : super(key: key);
+      Key key});
 
 //  factory LoadingListView(PageRequest<T> pageRequest,
 //      {int pageSize,
@@ -60,10 +60,10 @@ class LoadingListView<T> extends StatefulWidget {
 //      Key key}) : super(key: key);
 
   @override
-  createState() => new LoadingListViewState<T>();
+  createState() => new LoadingListViewState<T>(this.key);
 }
 
-class LoadingListViewState<T> extends State<LoadingListView<T>>{
+class LoadingListViewState<T> extends State<LoadingListView<T>> /*with AutomaticKeepAliveClientMixin<LoadingListView<T>>*/{
   List<T> objects = [];
   Map<int, int> index = {};
   Future request;
@@ -71,20 +71,25 @@ class LoadingListViewState<T> extends State<LoadingListView<T>>{
   bool isPerformingRequest = false;
   bool isLoadMore = true;
 
+  final Key _key;
+
+  LoadingListViewState(this._key);
+
   @override
   Widget build(BuildContext context) {
-    ListView listView = new ListView.builder(
+    return new ListView.builder(
+      key: _key,
       itemBuilder: itemBuilder,
       itemCount: objects.length + (isLoadMore ? 1 : 0),
       reverse: widget.reverse,
       controller: _scrollController,
     );
 
-    return new RefreshIndicator(
-      onRefresh: onRefresh,
-      child: listView,
-      //displacement: 2.0,
-    );
+//    return new RefreshIndicator(
+//      onRefresh: onRefresh,
+//      child: listView,
+//      //displacement: 2.0,
+//    );
   }
 
   @override

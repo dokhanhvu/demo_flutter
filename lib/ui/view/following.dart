@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/data/api.dart';
 import 'package:flutter_app/misc/auth_manager.dart';
 import 'package:flutter_app/ui/Tile/map_tile.dart';
-import 'package:flutter_app/ui/widget/Custom_PopupMenuButton.dart';
 import 'package:flutter_app/ui/widget/loadinglistview.dart';
 
 class Following extends StatefulWidget {
@@ -18,10 +17,10 @@ class Following extends StatefulWidget {
       : super(key: key);
 
   @override
-  createState() => new FollowersState();
+  createState() => new FollowingState();
 }
 
-class FollowersState extends State<Following> {
+class FollowingState extends State<Following>{
   Widget w;
 
   @override
@@ -35,11 +34,12 @@ class FollowersState extends State<Following> {
       );
     }
     return new Scaffold(
-        appBar: new AppBar(
-          actions: [
-            new CustomPopupMenuButton(widget._authManager, context)
-          ],
-        ),
+      //key: new PageStorageKey<FollowingState>(this),
+//        appBar: new AppBar(
+//          actions: [
+//            new CustomPopupMenuButton(widget._authManager, context)
+//          ],
+//        ),
         body: w);
     return w;
   }

@@ -44,7 +44,7 @@ void configureRouter(Router router, AuthManager authManager) {
       handler: new Handler(handlerFunc: buildLoginHandler(authManager)));
 
   router.define('/home',
-      handler: new Handler(handlerFunc: buildMainHandler(authManager)));
+      handler: new Handler(handlerFunc: buildHomeHandler(authManager)));
 
   router.define(
       '/users/:username/followers',
