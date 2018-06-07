@@ -15,7 +15,8 @@ dependencies:
   cached_network_image: ^0.4.1
   image:
   flutter_image: ^1.0.0
-  simple_permissions:
+#  simple_permissions:
+  flutter_facebook_login:
 
 dev_dependencies:
   flutter_test:

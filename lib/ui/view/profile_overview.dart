@@ -4,6 +4,7 @@ import 'package:flutter_app/data/api.dart';
 import 'package:flutter_app/misc/auth_manager.dart';
 import 'package:flutter_app/model/user.dart';
 import 'package:flutter_app/ui/view/randomwords.dart';
+import 'package:flutter_app/ui/widget/Custom_PopupMenuButton.dart';
 
 class ProfileOverview extends StatefulWidget {
   final AuthManager _authManager;
@@ -33,12 +34,12 @@ class _ProfileOverviewState extends State<ProfileOverview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-//      appBar: new AppBar(
-//        title: new Text("Demo_Flutter"),
-//        actions: [
-//          new CustomPopupMenuButton(_authManager, context)
-//        ],
-//        ),
+      appBar: new AppBar(
+        title: new Text("Demo_Flutter"),
+        actions: [
+          new CustomPopupMenuButton(_authManager, context)
+        ],
+        ),
       body: new Column(
         children: <Widget>[_buildProfileView()],
       ),
@@ -133,12 +134,12 @@ class _ProfileOverviewState extends State<ProfileOverview> {
         ),
         new FlatButton(
             onPressed: () {
-              //Navigator.pushNamed(context, '/users/${user.login}/followers');
-              Navigator.of(context, rootNavigator: true).push(new MaterialPageRoute(
-                builder: (context) {
-                  return new RandomWords();
-                }
-              ));
+              Navigator.pushNamed(context, '/users/${user.login}/followers');
+//              Navigator.of(context, rootNavigator: true).push(new MaterialPageRoute(
+//                builder: (context) {
+//                  return new RandomWords();
+//                }
+//              ));
             },
             child: new Column(
               children: <Widget>[

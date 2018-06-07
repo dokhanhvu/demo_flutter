@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/data/api.dart';
 import 'package:flutter_app/misc/auth_manager.dart';
 import 'package:flutter_app/ui/Tile/map_tile.dart';
+import 'package:flutter_app/ui/widget/Custom_PopupMenuButton.dart';
 import 'package:flutter_app/ui/widget/loadinglistview.dart';
 
 class Following extends StatefulWidget {
@@ -34,12 +35,12 @@ class FollowingState extends State<Following>{
       );
     }
     return new Scaffold(
-      //key: new PageStorageKey<FollowingState>(this),
-//        appBar: new AppBar(
-//          actions: [
-//            new CustomPopupMenuButton(widget._authManager, context)
-//          ],
-//        ),
+      key: new PageStorageKey<FollowingState>(this),
+        appBar: new AppBar(
+          actions: [
+            new CustomPopupMenuButton(widget._authManager, context)
+          ],
+        ),
         body: w);
     return w;
   }

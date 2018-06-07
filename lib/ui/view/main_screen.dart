@@ -37,24 +37,24 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: new AppBar(
-          title: new Text("Demo_Flutter"),
-          actions: [
-            new CustomPopupMenuButton(_authManager, context)
-          ],
-        ),
-        body: _getPageView()/*new PageView(
+//        appBar: new AppBar(
+//          title: new Text("Demo_Flutter"),
+//          actions: [
+//            new CustomPopupMenuButton(_authManager, context)
+//          ],
+//        ),
+        body: /*_getPageView()*/new PageView(
 
             children: [
               new ProfileOverview(_authManager.ownerName, _authManager),
-              new Following(_authManager.ownerName, _authManager, */ /*key: new ValueKey<String>('FollowingList'),*/ /*),
-              new Followers(_authManager.ownerName, _authManager,*/ /*key: new ValueKey<String>('FollowersList'),*/ /*)
+              new Following(_authManager.ownerName, _authManager,  key: new ValueKey<String>('FollowingList'), ),
+              new Followers(_authManager.ownerName, _authManager, key: new ValueKey<String>('FollowersList'), )
             ],
 
             /// Specify the page controller
             controller: _pageController,
             onPageChanged: onPageChanged
-        ),*/
+        ),
 //        new PageView.builder(
 //          itemCount: list.length,
 //          itemBuilder: (BuildContext context, int index){
@@ -63,27 +63,27 @@ class _MainScreenState extends State<MainScreen> {
 //          controller: _pageController,
 //
 //        ),
-//        bottomNavigationBar: new BottomNavigationBar(
-//            items: [
-//              new BottomNavigationBarItem(
-//                  icon: new Icon(Icons.account_circle),
-//                  title: new Text("profiles")
-//              ),
-//              new BottomNavigationBarItem(
-//                  icon: new Icon(Icons.rss_feed),
-//                  title: new Text("feed")
-//              ),
-//              new BottomNavigationBarItem(
-//                  icon: new Icon(Icons.people),
-//                  title: new Text("community")
-//              )
-//            ],
-//
-//            /// Will be used to scroll to the next page
-//            /// using the _pageController
-//            onTap: navigationTapped,
-//            currentIndex: _page
-//        )
+        bottomNavigationBar: new BottomNavigationBar(
+            items: [
+              new BottomNavigationBarItem(
+                  icon: new Icon(Icons.account_circle),
+                  title: new Text("profiles")
+              ),
+              new BottomNavigationBarItem(
+                  icon: new Icon(Icons.rss_feed),
+                  title: new Text("feed")
+              ),
+              new BottomNavigationBarItem(
+                  icon: new Icon(Icons.people),
+                  title: new Text("community")
+              )
+            ],
+
+            /// Will be used to scroll to the next page
+            /// using the _pageController
+            onTap: navigationTapped,
+            currentIndex: _page
+        )
     );
   }
 
@@ -105,23 +105,23 @@ class _MainScreenState extends State<MainScreen> {
   /// Called when the user presses on of the
   /// [BottomNavigationBarItem] with corresponding
   /// page index
-//  void navigationTapped(int page){
-//
-//    // Animating to the page.
-//    // You can use whatever duration and curve you like
-//    _pageController.animateToPage(
-//        page,
-//        duration: const Duration(milliseconds: 300),
-//        curve: Curves.ease
-//    );
-//  }
+  void navigationTapped(int page){
+
+    // Animating to the page.
+    // You can use whatever duration and curve you like
+    _pageController.animateToPage(
+        page,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.ease
+    );
+  }
 
 
-//  void onPageChanged(int page){
-//    setState((){
-//      this._page = page;
-//    });
-//  }
+  void onPageChanged(int page){
+    setState((){
+      this._page = page;
+    });
+  }
 
   @override
   void initState() {

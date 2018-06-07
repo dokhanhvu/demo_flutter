@@ -26,6 +26,7 @@ class Followers extends StatefulWidget {
 
 class FollowersState extends State<Followers>{
 
+
   Widget w;
   final Router router = new Router();
 
@@ -66,7 +67,12 @@ class FollowersState extends State<Followers>{
     }
 
     return new Scaffold(
-      //key: new PageStorageKey<FollowersState>(this),
+      key: new PageStorageKey<FollowersState>(this),
+      appBar: new AppBar(
+        actions: [
+          new CustomPopupMenuButton(widget._authManager, context)
+        ],
+      ),
       body: new Navigator(
         initialRoute: '/',
         onGenerateRoute: router.generator,
