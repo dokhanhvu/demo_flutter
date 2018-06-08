@@ -34,6 +34,9 @@ class _LoginPageState extends State<LoginScreen> {
   final AuthManager _authManager;
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _usernameFocus = FocusNode();
+  final _passwordFocus = FocusNode();
+  final _scrollController = ScrollController();
 
   _LoginPageState(this._authManager);
 
@@ -51,6 +54,22 @@ class _LoginPageState extends State<LoginScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _usernameFocus.addListener(_onFocusChange);
+    _passwordFocus.addListener(_onFocusChange);
+  }
+
+  void _onFocusChange(){
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      curve: Curves.easeOut,
+      duration: const Duration(milliseconds: 300),
+
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -59,6 +78,8 @@ class _LoginPageState extends State<LoginScreen> {
 //          child: Padding(
 //            padding: EdgeInsets.symmetric(horizontal: 24.0),
 //            child: Column(
+//              mainAxisAlignment: MainAxisAlignment.center,
+//              mainAxisSize: MainAxisSize.min,
 //              children: <Widget>[
 //                SizedBox(height: 80.0),
 //                Column(
@@ -110,6 +131,7 @@ class _LoginPageState extends State<LoginScreen> {
 //          )
 //        ),
         child: ListView(
+          controller: _scrollController,
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           children: <Widget>[
             SizedBox(height: 80.0),
@@ -131,6 +153,7 @@ class _LoginPageState extends State<LoginScreen> {
 
             TextField(
               controller: _usernameController,
+              focusNode: _usernameFocus,
               decoration: InputDecoration(
                 labelText: 'Username or email',
               ),
@@ -138,6 +161,7 @@ class _LoginPageState extends State<LoginScreen> {
             SizedBox(height: 12.0),
             TextField(
               controller: _passwordController,
+              focusNode: _passwordFocus,
               decoration: InputDecoration(
                 labelText: 'Password',
               ),

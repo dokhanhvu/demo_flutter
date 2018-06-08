@@ -2,11 +2,21 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/misc/auth_manager.dart';
 import 'package:flutter_app/misc/routes.dart';
+import 'package:flutter_app/redux/App/app_state.dart';
 import 'package:flutter_app/ui/view/splash_screen.dart';
+import 'package:redux/redux.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 
 class MyApp extends StatelessWidget {
   final AuthManager _authManager = new AuthManager();
   final Router router = new Router();
+
+//  final store = new Store<AppState>(
+//    // new
+//    null, // new
+//    initialState: new AppState(), // new
+//    middleware: [], // new
+//  );
 
   MyApp() {
     configureRouter(router, _authManager);
@@ -14,15 +24,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return new MaterialApp(
       title: 'Shrine',
       home: new SplashScreen(_authManager),
       onGenerateRoute: router.generator,
       theme: _appTheme,
-
     );
   }
-
 }
 
 final ThemeData _appTheme = _buildAppTheme();

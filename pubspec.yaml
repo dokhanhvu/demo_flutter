@@ -15,9 +15,10 @@ dependencies:
   cached_network_image: ^0.4.1
   image:
   flutter_image: ^1.0.0
+  flutter_redux: ^0.5.1
 #  simple_permissions:
   flutter_facebook_login:
-
+  redux: ^3.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
