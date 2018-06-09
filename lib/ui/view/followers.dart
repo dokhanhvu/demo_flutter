@@ -42,6 +42,7 @@ class FollowersState extends State<Followers>{
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
           return new Scaffold(
               appBar: new AppBar(
+                title: Text("Followers"),
                 actions: [
                   new CustomPopupMenuButton(widget._authManager, context)
                 ],
@@ -68,11 +69,11 @@ class FollowersState extends State<Followers>{
 
     return new Scaffold(
       key: new PageStorageKey<FollowersState>(this),
-      appBar: new AppBar(
-        actions: [
-          new CustomPopupMenuButton(widget._authManager, context)
-        ],
-      ),
+//      appBar: new AppBar(
+//        actions: [
+//          new CustomPopupMenuButton(widget._authManager, context)
+//        ],
+//      ),
       body: new Navigator(
         initialRoute: '/',
         onGenerateRoute: router.generator,

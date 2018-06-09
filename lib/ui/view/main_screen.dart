@@ -28,7 +28,7 @@ class _MainScreenState extends State<MainScreen> {
 
   List<Widget> list;
 
-  PageView pageView = null;
+  //PageView pageView = null;
 
   final AuthManager _authManager;
 
@@ -87,20 +87,20 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget _getPageView() {
-    if (pageView == null) {
-      pageView = new PageView.builder(
-        key: new PageStorageKey<PageView>(pageView),
-        itemCount: list.length,
-        itemBuilder: (BuildContext context, int index) {
-          return list[index];
-        },
-        controller: _pageController,
-
-      );
-    }
-    return pageView;
-  }
+//  Widget _getPageView() {
+//    if (pageView == null) {
+//      pageView = new PageView.builder(
+//        key: new PageStorageKey<PageView>(pageView),
+//        itemCount: list.length,
+//        itemBuilder: (BuildContext context, int index) {
+//          return list[index];
+//        },
+//        controller: _pageController,
+//
+//      );
+//    }
+//    return pageView;
+//  }
 
   /// Called when the user presses on of the
   /// [BottomNavigationBarItem] with corresponding
