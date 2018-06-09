@@ -63,7 +63,7 @@ class LoadingListView<T> extends StatefulWidget {
   createState() => new LoadingListViewState<T>(this.key);
 }
 
-class LoadingListViewState<T> extends State<LoadingListView<T>> /*with AutomaticKeepAliveClientMixin<LoadingListView<T>>*/{
+class LoadingListViewState<T> extends State<LoadingListView<T>> with AutomaticKeepAliveClientMixin<LoadingListView<T>>{
   List<T> objects = [];
   Map<int, int> index = {};
   Future request;
@@ -203,4 +203,8 @@ class LoadingListViewState<T> extends State<LoadingListView<T>> /*with Automatic
       ),
     );
   }
+
+  // TODO: implement wantKeepAlive
+  @override
+  bool get wantKeepAlive => true;
 }

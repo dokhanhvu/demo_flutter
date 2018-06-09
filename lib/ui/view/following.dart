@@ -21,7 +21,7 @@ class Following extends StatefulWidget {
   createState() => new FollowingState();
 }
 
-class FollowingState extends State<Following>{
+class FollowingState extends State<Following> with AutomaticKeepAliveClientMixin<Following>{
   Widget w;
 
   @override
@@ -49,6 +49,10 @@ class FollowingState extends State<Following>{
     Api api = new Api(widget._authManager);
     return api.getFollowing2(page, pageSize, widget._userName);
   }
+
+  // TODO: implement wantKeepAlive
+  @override
+  bool get wantKeepAlive => true;
 }
 
 //Widget adapt(Map map){

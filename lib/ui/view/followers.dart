@@ -24,8 +24,7 @@ class Followers extends StatefulWidget {
   createState() => new FollowersState();
 }
 
-class FollowersState extends State<Followers>{
-
+class FollowersState extends State<Followers> with AutomaticKeepAliveClientMixin<Followers>{
 
   Widget w;
   final Router router = new Router();
@@ -90,6 +89,10 @@ class FollowersState extends State<Followers>{
   Widget adaptTile(User user) {
     return new UserTile(user, widget._authManager);
   }
+
+  // TODO: implement wantKeepAlive
+  @override
+  bool get wantKeepAlive => true;
 
 //Widget adapt(User user){
 //  return new AnimationTile(user, adaptTile);
