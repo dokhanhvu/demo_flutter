@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
     );
   }
 
-
+//  cho xu anh yeu em
 //  Route<dynamic> _getRoute(RouteSettings settings) {
 //    if (settings.name != LoginScreen.routeName) {
 //      return null;
