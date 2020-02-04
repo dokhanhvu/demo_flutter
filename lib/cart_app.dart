@@ -6,6 +6,8 @@ import 'package:flutter_app/StreamDemo/cart_button.dart';
 import 'package:flutter_app/StreamDemo/product_square.dart';
 import 'package:flutter_app/StreamDemo/cart_bloc.dart';
 
+//demo conflict
+
 class CartApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
