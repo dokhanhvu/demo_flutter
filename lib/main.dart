@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/my_app.dart';
 
+//cho xu met ho, huhu
+
 void main() => runApp(new MyApp());
 
 //class MyApp extends StatelessWidget {
