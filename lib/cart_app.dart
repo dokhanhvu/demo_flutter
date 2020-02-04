@@ -6,7 +6,7 @@ import 'package:flutter_app/StreamDemo/cart_button.dart';
 import 'package:flutter_app/StreamDemo/product_square.dart';
 import 'package:flutter_app/StreamDemo/cart_bloc.dart';
 
-// cho xu de xuong
+// cho xu de xuong nhat qua dat
 
 class CartApp extends StatelessWidget {
   @override
