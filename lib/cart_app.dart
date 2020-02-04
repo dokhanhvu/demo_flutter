@@ -7,6 +7,7 @@ import 'package:flutter_app/StreamDemo/product_square.dart';
 import 'package:flutter_app/StreamDemo/cart_bloc.dart';
 
 // cho xu de xuong nhat qua dat
+//demo conflict
 
 class CartApp extends StatelessWidget {
   @override
