@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/my_app.dart';
 
+
 //demo conflict
+//cho xu met ho, huhu
 
 void main() => runApp(new MyApp());
 
